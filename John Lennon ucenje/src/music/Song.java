@@ -18,6 +18,15 @@ public class Song implements Serializable {
 	private String title;
  	private Musician author;
     private int year;
+    private String lyrics;
+    
+    public Song(String title, Musician author, int year, String lyrics) {
+        super();
+        this.title = title;
+        this.author = author;
+        this.year = year;
+        this.lyrics = lyrics;
+    }
     
     public Song(String title, Musician author, int year) {
         super();
@@ -130,6 +139,14 @@ public class Song implements Serializable {
 
 	public void setAuthor(Musician author) {
 		this.author = author;
+	}
+
+	public String getLyrics() {
+		return lyrics;
+	}
+
+	public void setLyrics(String lyrics) {
+		this.lyrics = lyrics;
 	}
 	
 }

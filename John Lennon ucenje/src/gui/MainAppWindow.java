@@ -15,6 +15,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JMenuItem;
 import net.miginfocom.swing.MigLayout;
+import util.Utility;
+
 import javax.swing.JComboBox;
 import java.awt.Dimension;
 import javax.swing.JButton;
@@ -25,6 +27,7 @@ import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 
 import music.Musician;
+import music.Song;
 
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
@@ -44,8 +47,8 @@ public class MainAppWindow {
 	private JLabel lblNewLabel;
 	private JMenuBar menuBar;
 	private JMenu mnNewMenu;
-	private JMenu mnNewMenu_1;
-	private JMenu mnNewMenu_2;
+	private JMenu mnNewMenuEdit;
+	private JMenu mnNewMenuHelp;
 	private JMenuItem mntmNewMenuItem;
 	private JLabel lblNewLabel_1;
 	private JComboBox comboBoxSong;
@@ -71,11 +74,14 @@ public class MainAppWindow {
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private JMenuItem mntmNewMusician;
 	private JMenuItem mntmNewSong;
-
+	
+	private Song song;
+    private List<Song> songs = new ArrayList<Song>();
 	private Musician musician = null;
 	private List<Musician> musicians = new ArrayList<Musician>();
 	
 	private NewMusician newMusician;
+	private NewSong newSong;
 	
 	/**
 	 * Launch the application.
@@ -180,8 +186,8 @@ public class MainAppWindow {
 		if (menuBar == null) {
 			menuBar = new JMenuBar();
 			menuBar.add(getMnNewMenu());
-			menuBar.add(getMnNewMenu_1());
-			menuBar.add(getMnNewMenu_2());
+			menuBar.add(getMnNewMenuEdit());
+			menuBar.add(getMnNewMenuHelp());
 		}
 		return menuBar;
 	}
@@ -193,18 +199,18 @@ public class MainAppWindow {
 		}
 		return mnNewMenu;
 	}
-	private JMenu getMnNewMenu_1() {
-		if (mnNewMenu_1 == null) {
-			mnNewMenu_1 = new JMenu("Edit");
+	private JMenu getMnNewMenuEdit() {
+		if (mnNewMenuEdit == null) {
+			mnNewMenuEdit = new JMenu("Edit");
 		}
-		return mnNewMenu_1;
+		return mnNewMenuEdit;
 	}
-	private JMenu getMnNewMenu_2() {
-		if (mnNewMenu_2 == null) {
-			mnNewMenu_2 = new JMenu("Help");
-			mnNewMenu_2.add(getMntmNewMenuItem());
+	private JMenu getMnNewMenuHelp() {
+		if (mnNewMenuHelp == null) {
+			mnNewMenuHelp = new JMenu("Help");
+			mnNewMenuHelp.add(getMntmNewMenuItem());
 		}
-		return mnNewMenu_2;
+		return mnNewMenuHelp;
 	}
 	private JMenuItem getMntmNewMenuItem() {
 		if (mntmNewMenuItem == null) {
@@ -226,10 +232,30 @@ public class MainAppWindow {
 	private JComboBox getComboBoxSong() {
 		if (comboBoxSong == null) {
 			comboBoxSong = new JComboBox();
-			comboBoxSong.setPreferredSize(new Dimension(100, 22));
-		}
-		return comboBoxSong;
+			comboBoxSong.addItemListener(new ItemListener() {
+        	    public void itemStateChanged(ItemEvent arg0) {
+        	        if (arg0.getStateChange() == ItemEvent.SELECTED) {
+        	            Song s = Utility.findSong(((String) comboBoxSong.getSelectedItem()), songs);
+//        	            populateSongInfo(s);
+//        	            matchMusicianToSong();
+        	        }
+        	    }
+        	});
+			comboBoxSong.setPreferredSize(new Dimension(120, 20));
+//            songComboBox.addItem("Mother");
+//            songComboBox.addItem("I Found Out");
+//            songComboBox.addItem("Isolation");
+        }
+        return comboBoxSong;
 	}
+	
+//	private void populateSongInfo(Song s) {
+//        getLblAuthorName().setText(s.getAuthor().getName());
+//        getLblYearText().setText(String.valueOf(s.getYear()));
+//        getTextArea().setText(s.getLyrics());
+//        getLblIllustration().setIcon(s.getAuthor().getIcon());
+//    }
+	
 	private JLabel getYear() {
 		if (Year == null) {
 			Year = new JLabel("Year");
